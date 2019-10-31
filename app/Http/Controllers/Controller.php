@@ -131,4 +131,13 @@ class Controller extends BaseController
             return json_encode(['message'=>$error]);
         }
     }
+
+    public function charities()
+    {
+        $charity = Charity::join('users', 'users.id', 'charities.user_id')
+        ->join('charity_categories', 'charity_categories.id', 'charities.charity_category_id')
+        ->select('organization', 'contact_number', 'account_number', 'users.name as handler', 'charity_categories.name as category')
+        ->get();
+        return response()->json($charity);
+    }
 }
