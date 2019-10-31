@@ -8,6 +8,7 @@ use App\Philanthropist;
 use App\PhilanthropistPoint;
 use App\Role;
 use App\User;
+use App\WatchLog;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -125,7 +126,13 @@ class Controller extends BaseController
             $inputs = file_get_contents('php://input');
             $inputs = json_decode($inputs);
 
-            User::findOrFail($inputs->id)->philanthropist->point->increment('points');
+            $user = User::findOrFail($inputs->user_id);
+            WatchLog::create([
+                'philanthropist_id' => $user->philanthropist->id,
+                'charity_id' => $inputs->charity_id
+            ]);
+            $user->philanthropist->point->increment('points');
+            Charity::findOrFail($inputs->charity_id)->point->increment('points');
             return json_encode(['message'=>"successful"]);
         } catch (Exception $error) {
             return json_encode(['message'=>$error]);
