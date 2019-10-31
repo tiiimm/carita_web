@@ -117,4 +117,18 @@ class Controller extends BaseController
             return json_encode(['message'=>$error]);
         }
     }
+
+    public function reward_user(Request $request)
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+
+            User::findOrFail($inputs->id)->philanthropist->point->increment('points');
+            return json_encode(['message'=>"successful"]);
+        } catch (Exception $error) {
+            return json_encode(['message'=>$error]);
+        }
+    }
 }
