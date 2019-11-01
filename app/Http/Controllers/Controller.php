@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Charity;
 use App\CharityCategory;
+use App\CharityPoint;
 use App\Philanthropist;
 use App\PhilanthropistPoint;
 use App\Role;
@@ -67,13 +68,17 @@ class Controller extends BaseController
             }
             elseif ($inputs->user_type == 'charity')
             {
-                Charity::create([
+                $charity = Charity::create([
                     'user_id'=>$inputs->id,
                     'organization'=>$inputs->organization,
                     'contact_number'=>$inputs->contact_number,
                     'account_number'=>$inputs->account_number,
                     'address'=>$inputs->address,
                     'charity_category_id'=>CharityCategory::where('name', $inputs->category)->value('id')
+                ]);
+                CharityPoint::create([
+                    'charity_id'=>$charity->id,
+                    'points'=>0
                 ]);
                 User::findOrFail($inputs->id)->update(['role_id'=>Role::where('name','charity')->value('id')]);
             }
@@ -102,13 +107,17 @@ class Controller extends BaseController
                     $current_user = User::findOrFail($user->id);
                     $user_type='';
                     $points = 0;
-                    if ($current_user->role==null)
+                    if (!is_null($current_user->role))
                     {
-                        $user_type='';
+                        $user_type = $current_user->role->name;
                     }
                     if ($user_type == 'user')
                     {
-                        $points = $current_user->points->points;
+                        $points = $current_user->philanthropist->point->points;
+                    }
+                    elseif ($user_type == 'charity')
+                    {
+                        $points = $current_user->charity->point->points;
                     }
                     return json_encode(['message'=>"successful", 'name' => $current_user->name, 'username'=> $current_user->username, 'email'=> $current_user->email, 'id'=> $current_user->id, 'user_type'=>$user_type, 'points'=>$points]);
                 }
@@ -143,7 +152,7 @@ class Controller extends BaseController
     {
         $charity = Charity::join('users', 'users.id', 'charities.user_id')
         ->join('charity_categories', 'charity_categories.id', 'charities.charity_category_id')
-        ->select('organization', 'contact_number', 'account_number', 'users.name as handler', 'charity_categories.name as category')
+        ->select('charities.id', 'organization', 'contact_number', 'account_number', 'users.name as handler', 'charity_categories.name as category')
         ->get();
         return response()->json($charity);
     }
