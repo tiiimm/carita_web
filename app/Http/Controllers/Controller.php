@@ -182,4 +182,22 @@ class Controller extends BaseController
             return json_encode(['message'=>$error]);
         }
     }
+
+    public function add_role(Request $request)
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+
+            Role::create([
+                'name'=>$inputs->name
+            ]);
+            return json_encode(['message'=>'Success']);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
 }
