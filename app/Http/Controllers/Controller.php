@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Charity;
+use App\CharityAchievement;
 use App\CharityCategory;
 use App\CharityPoint;
 use App\Philanthropist;
@@ -142,7 +143,7 @@ class Controller extends BaseController
             ]);
             $user->philanthropist->point->increment('points');
             Charity::findOrFail($inputs->charity_id)->point->increment('points');
-            return json_encode(['message'=>"successful"]);
+            return json_encode(['message'=>"successful", 'points'=>$user->philanthropist->point->points]);
         } catch (Exception $error) {
             return json_encode(['message'=>$error]);
         }
@@ -155,5 +156,30 @@ class Controller extends BaseController
         ->select('charities.id', 'organization', 'contact_number', 'account_number', 'users.name as handler', 'charity_categories.name as category')
         ->get();
         return response()->json($charity);
+    }
+
+    public function add_achievement(Request $request)
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+
+            // return ['inputs'=>$inputs];
+            
+            $user = User::findOrFail($inputs->id);
+            CharityAchievement::create([
+                'charity_id'=>$user->charity->id,
+                'title' => $inputs->title,
+                'description' => $inputs->description,
+                'photo' => "PHOTO",
+                'held_on' => $inputs->held_on,
+            ]);
+            return CharityAchievement::where('charity_id', $user->charity->id)->get();
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
     }
 }
