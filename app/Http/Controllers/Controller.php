@@ -218,4 +218,25 @@ class Controller extends BaseController
             return json_encode(['message'=>$error]);
         }
     }
+    
+    public function add_user(Request $request)
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+
+            User::create([
+                'name'=>$inputs->name,
+                'email'=>$inputs->email,
+                'username'=>$inputs->username,
+                'password'=>bcrypt($inputs->password)
+            ]);
+            return json_encode(['message'=>'Success']);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
 }

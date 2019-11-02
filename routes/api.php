@@ -27,6 +27,7 @@ Route::post('/reward_user', "Controller@reward_user");
 Route::post('/add_achievement', "Controller@add_achievement");
 Route::post('/add_role', "Controller@add_role");
 Route::post('/add_charity_category', "Controller@add_charity_category");
+Route::post('/add_user', "Controller@add_user");
 
 Route::get('/charities', "Controller@charities");
 Route::get('/seed', function () {
