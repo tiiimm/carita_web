@@ -149,13 +149,17 @@ class Controller extends BaseController
         }
     }
 
-    public function charities()
+    public function update_profile(Request $request)
     {
-        $charity = Charity::join('users', 'users.id', 'charities.user_id')
-        ->join('charity_categories', 'charity_categories.id', 'charities.charity_category_id')
-        ->select('charities.id', 'organization', 'contact_number', 'account_number', 'users.name as handler', 'charity_categories.name as category')
-        ->get();
-        return response()->json($charity);
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
     }
 
     public function add_achievement(Request $request)
@@ -238,5 +242,195 @@ class Controller extends BaseController
         {
             return json_encode(['message'=>$error]);
         }
+    }
+
+    public function update_achievement(Request $request)
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+
+            CharityAchievement::findOrFail($inputs->id)->update([
+                'title' => $inputs->title,
+                'description' => $inputs->description,
+                'photo' => 'PHOTO',
+                'held_on' => $inputs->held_on
+            ]);
+            return json_encode(['message'=>'Success']);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
+    public function update_role(Request $request)
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+            
+            Role::findOrFail($inputs->id)->update([
+                'name' => $inputs->name
+            ]);
+            return json_encode(['message'=>'Success']);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
+    public function update_charity_category(Request $request)
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+            
+            CharityCategory::findOrFail($inputs->id)->update([
+                'name' => $inputs->name
+            ]);
+            return json_encode(['message'=>'Success']);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
+    public function update_user(Request $request)
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+            
+            User::findOrFail($inputs->id)->update([
+                'name' => $inputs->name,
+                'email' => $inputs->email,
+                'username' => $inputs->username,
+                'password' => bcrypt($inputs->password),
+            ]);
+            return json_encode(['message'=>'Success']);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
+    public function delete_achievement(Request $request)
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+            
+            CharityAchievement::findOrFail($inputs->id)->delete();
+            return json_encode(['message'=>'Success']);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
+    public function delete_role(Request $request)
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+            
+            Role::findOrFail($inputs->id)->delete();
+            return json_encode(['message'=>'Success']);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
+    public function delete_charity_category(Request $request)
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+            
+            CharityCategory::findOrFail($inputs->id)->delete();
+            return json_encode(['message'=>'Success']);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
+    public function delete_user(Request $request)
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+            
+            User::findOrFail($inputs->id)->delete();
+            return json_encode(['message'=>'Success']);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
+    public function get_charity_achievements(Request $request)
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+            
+            return ['achievements'=>User::findOrFail($inputs->id)->charity->achievements];
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
+    public function get_achievements()
+    {
+        $achievements = CharityAchievement::join('charities', 'charities.id', 'charity_achievements.charity_id')
+        ->select('charity_achievements.id', 'title', 'description', 'photo', 'held_on')
+        ->get();
+        return response()->json($achievements);
+    }
+
+    public function get_charities()
+    {
+        $charity = Charity::join('users', 'users.id', 'charities.user_id')
+        ->join('charity_categories', 'charity_categories.id', 'charities.charity_category_id')
+        ->select('charities.id', 'organization', 'contact_number', 'account_number', 'users.name as handler', 'charity_categories.name as category')
+        ->get();
+        return response()->json($charity);
+    }
+
+    public function get_roles()
+    {
+        $roles = Role::get();
+        return response()->json($roles);
+    }
+
+    public function get_charity_categories()
+    {
+        return CharityCategory::all();
+    }
+
+    public function get_users()
+    {
+        return User::all();
     }
 }

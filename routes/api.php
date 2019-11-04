@@ -20,26 +20,28 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register_user', "Controller@register_user");
-Route::post('/login_user', "Controller@login_user");
-Route::post('/set_user_type', "Controller@set_user_type");
-Route::post('/reward_user', "Controller@reward_user");
-Route::post('/update_profile', "Controller@update_profile");
+Route::post('/register_user', "Controller@register_user"); //params: name, username, email, password
+Route::post('/set_user_type', "Controller@set_user_type"); //params: user_type (philanthropist: id, contact_number, birthday, sex, category), (charity: id, organization, contact_number, account_number, address, category)
+Route::post('/login_user', "Controller@login_user"); //params: username, password
+Route::post('/reward_user', "Controller@reward_user"); //params: user_id, charity_id
+Route::post('/update_profile', "Controller@update_profile"); //params: 
 
-Route::post('/add_achievement', "Controller@add_achievement");
-Route::post('/add_role', "Controller@add_role");
-Route::post('/add_charity_category', "Controller@add_charity_category");
-Route::post('/add_user', "Controller@add_user");
+Route::post('/add_achievement', "Controller@add_achievement"); //params: id, title, description, photo, held_on
+Route::post('/add_role', "Controller@add_role"); //params: name
+Route::post('/add_charity_category', "Controller@add_charity_category"); //params: name
+Route::post('/add_user', "Controller@add_user"); //params: name, email, username, password
 
-Route::post('/update_achievement', "Controller@update_achievement");
-Route::post('/update_role', "Controller@update_role");
-Route::post('/update_charity_category', "Controller@update_charity_category");
-Route::post('/update_user', "Controller@update_user");
+Route::post('/update_achievement', "Controller@update_achievement"); //params: id, title, description, photo, held_on 
+Route::post('/update_role', "Controller@update_role"); //params: id, name
+Route::post('/update_charity_category', "Controller@update_charity_category"); //params: id, name
+Route::post('/update_user', "Controller@update_user"); //params: id, name, email, username, password
 
-Route::post('/delete_achievement', "Controller@delete_achievement");
-Route::post('/delete_role', "Controller@delete_role");
-Route::post('/delete_charity_category', "Controller@delete_charity_category");
-Route::post('/delete_user', "Controller@delete_user");
+Route::post('/delete_achievement', "Controller@delete_achievement"); //params: id
+Route::post('/delete_role', "Controller@delete_role"); //params: id
+Route::post('/delete_charity_category', "Controller@delete_charity_category"); //params: id
+Route::post('/delete_user', "Controller@delete_user"); //params: id
+
+Route::post('/get_charity_achievements', "Controller@get_charity_achievements"); //params: id
 
 Route::get('/get_achievements', "Controller@get_achievements");
 Route::get('/get_charities', "Controller@get_charities");
