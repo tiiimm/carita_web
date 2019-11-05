@@ -24,7 +24,9 @@ Route::post('/register_user', "Controller@register_user"); //params: name, usern
 Route::post('/set_user_type', "Controller@set_user_type"); //params: user_type (philanthropist: id, contact_number, birthday, sex, category), (charity: id, organization, contact_number, account_number, address, category)
 Route::post('/login_user', "Controller@login_user"); //params: username, password
 Route::post('/reward_user', "Controller@reward_user"); //params: user_id, charity_id
-Route::post('/update_profile', "Controller@update_profile"); //params: 
+Route::post('/update_profile', "Controller@update_profile"); //params: id, name, username, email
+Route::post('/update_password', "Controller@update_password"); //params: id, password
+Route::post('/reset_password', "Controller@reset_password"); //params: id, password
 
 Route::post('/add_achievement', "Controller@add_achievement"); //params: id, title, description, photo, held_on
 Route::post('/add_role', "Controller@add_role"); //params: name
@@ -42,6 +44,7 @@ Route::post('/delete_charity_category', "Controller@delete_charity_category"); /
 Route::post('/delete_user', "Controller@delete_user"); //params: id
 
 Route::post('/get_charity_achievements', "Controller@get_charity_achievements"); //params: id
+Route::post('/get_user_details', "Controller@get_user_details"); //params: id
 
 Route::get('/get_achievements', "Controller@get_achievements");
 Route::get('/get_charities', "Controller@get_charities");

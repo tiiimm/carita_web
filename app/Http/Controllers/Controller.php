@@ -22,7 +22,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     
-    public function register_user(Request $request)
+    public function register_user()
     {
         try
         {
@@ -44,7 +44,7 @@ class Controller extends BaseController
         }
     }
     
-    public function set_user_type(Request $request)
+    public function set_user_type()
     {
         try
         {
@@ -129,7 +129,7 @@ class Controller extends BaseController
         }
     }
 
-    public function reward_user(Request $request)
+    public function reward_user()
     {
         try {
             $inputs = array();
@@ -149,12 +149,18 @@ class Controller extends BaseController
         }
     }
 
-    public function update_profile(Request $request)
+    public function update_profile()
     {
         try {
             $inputs = array();
             $inputs = file_get_contents('php://input');
             $inputs = json_decode($inputs);
+
+            User::findOrFail($inputs->id)->update([
+                'name' => $inputs->name,
+                'username' => $inputs->username,
+                'email' => $inputs->email
+            ]);
         }
         catch(Exception $error)
         {
@@ -162,7 +168,41 @@ class Controller extends BaseController
         }
     }
 
-    public function add_achievement(Request $request)
+    public function update_password()
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+
+            User::findOrFail($inputs->id)->update([
+                'password' => bcrypt($inputs->password)
+            ]);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
+    public function reset_password()
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+
+            User::findOrFail($inputs->id)->update([
+                'password' => bcrypt('123456789')
+            ]);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+    
+    public function add_achievement()
     {
         try {
             $inputs = array();
@@ -187,7 +227,7 @@ class Controller extends BaseController
         }
     }
 
-    public function add_role(Request $request)
+    public function add_role()
     {
         try {
             $inputs = array();
@@ -205,7 +245,7 @@ class Controller extends BaseController
         }
     }
 
-    public function add_charity_category(Request $request)
+    public function add_charity_category()
     {
         try {
             $inputs = array();
@@ -223,7 +263,7 @@ class Controller extends BaseController
         }
     }
     
-    public function add_user(Request $request)
+    public function add_user()
     {
         try {
             $inputs = array();
@@ -244,7 +284,7 @@ class Controller extends BaseController
         }
     }
 
-    public function update_achievement(Request $request)
+    public function update_achievement()
     {
         try {
             $inputs = array();
@@ -265,7 +305,7 @@ class Controller extends BaseController
         }
     }
 
-    public function update_role(Request $request)
+    public function update_role()
     {
         try {
             $inputs = array();
@@ -283,7 +323,7 @@ class Controller extends BaseController
         }
     }
 
-    public function update_charity_category(Request $request)
+    public function update_charity_category()
     {
         try {
             $inputs = array();
@@ -301,7 +341,7 @@ class Controller extends BaseController
         }
     }
 
-    public function update_user(Request $request)
+    public function update_user()
     {
         try {
             $inputs = array();
@@ -312,7 +352,6 @@ class Controller extends BaseController
                 'name' => $inputs->name,
                 'email' => $inputs->email,
                 'username' => $inputs->username,
-                'password' => bcrypt($inputs->password),
             ]);
             return json_encode(['message'=>'Success']);
         }
@@ -322,7 +361,7 @@ class Controller extends BaseController
         }
     }
 
-    public function delete_achievement(Request $request)
+    public function delete_achievement()
     {
         try {
             $inputs = array();
@@ -338,7 +377,7 @@ class Controller extends BaseController
         }
     }
 
-    public function delete_role(Request $request)
+    public function delete_role()
     {
         try {
             $inputs = array();
@@ -354,7 +393,7 @@ class Controller extends BaseController
         }
     }
 
-    public function delete_charity_category(Request $request)
+    public function delete_charity_category()
     {
         try {
             $inputs = array();
@@ -370,7 +409,7 @@ class Controller extends BaseController
         }
     }
 
-    public function delete_user(Request $request)
+    public function delete_user()
     {
         try {
             $inputs = array();
@@ -386,7 +425,7 @@ class Controller extends BaseController
         }
     }
 
-    public function get_charity_achievements(Request $request)
+    public function get_charity_achievements()
     {
         try {
             $inputs = array();
@@ -394,6 +433,22 @@ class Controller extends BaseController
             $inputs = json_decode($inputs);
             
             return ['achievements'=>User::findOrFail($inputs->id)->charity->achievements];
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
+    public function get_user_details()
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+            
+            $user = User::findOrFail($inputs->id);
+            return ['name'=>$user->name, 'username'=>$user->username, 'email'=>$user->email];
         }
         catch(Exception $error)
         {
@@ -431,6 +486,32 @@ class Controller extends BaseController
 
     public function get_users()
     {
-        return User::all();
+        $return_users=[];
+        $users = User::select('id', 'name', 'role_id as type')
+        ->get();
+        foreach ($users as $user)
+        {
+            if($user['type'] == null)
+            {
+                $user['type'] = '';
+                $user['points']=0;
+                array_push($return_users, $user);
+            }
+            else
+            { 
+                $user['type']=User::findOrFail($user->id)->role->name;
+                if ($user['type'] == 'charity')
+                {
+                    $user['points']=User::findOrFail($user->id)->charity->point->points;
+                    array_push($return_users, $user);
+                }
+                elseif ($user['type'] == 'user')
+                {
+                    $user['points']=User::findOrFail($user->id)->philanthropist->point->points;
+                    array_push($return_users, $user);
+                }
+            }
+        }
+        return $return_users;
     }
 }
