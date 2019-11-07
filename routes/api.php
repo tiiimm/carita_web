@@ -24,6 +24,7 @@ Route::post('/register_user', "Controller@register_user"); //params: name, usern
 Route::post('/set_user_type', "Controller@set_user_type"); //params: user_type (philanthropist: id, contact_number, birthday, sex, category), (charity: id, organization, contact_number, account_number, address, category)
 Route::post('/login_user', "Controller@login_user"); //params: username, password
 Route::post('/reward_user', "Controller@reward_user"); //params: user_id, charity_id
+Route::post('/update_profile_picture', "Controller@update_profile_picture"); //params: id, photo
 Route::post('/update_profile', "Controller@update_profile"); //params: id, name, username, email
 Route::post('/update_password', "Controller@update_password"); //params: id, password
 Route::post('/reset_password', "Controller@reset_password"); //params: id, password
@@ -80,6 +81,7 @@ Route::get('/seed', function () {
         'name'=>'FATIMA MERCY A ONRUBIA',
         'email'=>'onrubia.fatima98@gmail.com',
         'username'=>'tim',
+        'photo'=>'carita/profile_picture.png',
         'role_id'=>1,
         'password'=>bcrypt('asdasdasd')
     ]);

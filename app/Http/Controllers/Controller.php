@@ -34,9 +34,10 @@ class Controller extends BaseController
                 'name'=>$inputs->name,
                 'username'=>$inputs->username,
                 'email'=>$inputs->email,
+                'photo' => 'carita/profile_picture.png',
                 'password'=>bcrypt($inputs->password)
             ]);
-            return json_encode(['message'=>"successful", 'name' => $user->name, 'username'=> $user->username, 'email'=> $user->email, 'id'=> $user->id, 'points'=>0]);
+            return json_encode(['message'=>"successful", 'name' => $user->name, 'username'=> $user->username, 'email'=> $user->email, 'id'=> $user->id, 'points'=>0, 'photo'=>'carita/profile_picture.png']);
         }
         catch(Exception $error)
         {
@@ -75,7 +76,8 @@ class Controller extends BaseController
                     'contact_number'=>$inputs->contact_number,
                     'account_number'=>$inputs->account_number,
                     'address'=>$inputs->address,
-                    'charity_category_id'=>CharityCategory::where('name', $inputs->category)->value('id')
+                    'charity_category_id'=>CharityCategory::where('name', $inputs->category)->value('id'),
+                    'photo'=>'carita/profile_picture.png'
                 ]);
                 CharityPoint::create([
                     'charity_id'=>$charity->id,
@@ -100,6 +102,11 @@ class Controller extends BaseController
             $inputs = json_decode($inputs);
             
             $user_details = User::where('username', $inputs->username)->get();
+
+            if ($user_details->isEmpty())
+            {
+                return json_encode(['message'=>"invalid"]);
+            }
             
             foreach($user_details as $user)
             {
@@ -120,12 +127,12 @@ class Controller extends BaseController
                     {
                         $points = $current_user->charity->point->points;
                     }
-                    return json_encode(['message'=>"successful", 'name' => $current_user->name, 'username'=> $current_user->username, 'email'=> $current_user->email, 'id'=> $current_user->id, 'user_type'=>$user_type, 'points'=>$points]);
+                    return json_encode(['message'=>"successful", 'name' => $current_user->name, 'username'=> $current_user->username, 'email'=> $current_user->email, 'id'=> $current_user->id, 'user_type'=>$user_type, 'points'=>$points, 'photo'=>$current_user->photo]);
                 }
                 return json_encode(['message'=>"invalid"]);
             }
         } catch (Exception $error) {
-            return json_encode(['message'=>$error]);
+            return json_encode(['message'=>"invalid"]);
         }
     }
 
@@ -149,6 +156,24 @@ class Controller extends BaseController
         }
     }
 
+    public function update_profile_picture()
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+
+            User::findOrFail($inputs->id)->update([
+                'photo'=>$inputs->photo
+            ]);
+            return json_encode(['message'=>'successful']);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
     public function update_profile()
     {
         try {
@@ -161,6 +186,7 @@ class Controller extends BaseController
                 'username' => $inputs->username,
                 'email' => $inputs->email
             ]);
+            return json_encode(['message'=>'successful']);
         }
         catch(Exception $error)
         {
@@ -178,6 +204,7 @@ class Controller extends BaseController
             User::findOrFail($inputs->id)->update([
                 'password' => bcrypt($inputs->password)
             ]);
+            return json_encode(['message'=>'successful']);
         }
         catch(Exception $error)
         {
@@ -195,6 +222,7 @@ class Controller extends BaseController
             User::findOrFail($inputs->id)->update([
                 'password' => bcrypt('123456789')
             ]);
+            return json_encode(['message'=>'successful']);
         }
         catch(Exception $error)
         {
@@ -208,18 +236,16 @@ class Controller extends BaseController
             $inputs = array();
             $inputs = file_get_contents('php://input');
             $inputs = json_decode($inputs);
-
-            // return ['inputs'=>$inputs];
             
             $user = User::findOrFail($inputs->id);
             CharityAchievement::create([
                 'charity_id'=>$user->charity->id,
                 'title' => $inputs->title,
                 'description' => $inputs->description,
-                'photo' => "PHOTO",
+                'photo' => $inputs->photo,
                 'held_on' => $inputs->held_on,
             ]);
-            return CharityAchievement::where('charity_id', $user->charity->id)->get();
+            return json_encode(['message'=>'successful']);
         }
         catch(Exception $error)
         {
@@ -274,7 +300,8 @@ class Controller extends BaseController
                 'name'=>$inputs->name,
                 'email'=>$inputs->email,
                 'username'=>$inputs->username,
-                'password'=>bcrypt($inputs->password)
+                'password'=>bcrypt($inputs->password),
+                'photo' => 'carita/profile_picture.png'
             ]);
             return json_encode(['message'=>'Success']);
         }
@@ -294,7 +321,7 @@ class Controller extends BaseController
             CharityAchievement::findOrFail($inputs->id)->update([
                 'title' => $inputs->title,
                 'description' => $inputs->description,
-                'photo' => 'PHOTO',
+                'photo' => $inputs->photo,
                 'held_on' => $inputs->held_on
             ]);
             return json_encode(['message'=>'Success']);
@@ -448,7 +475,7 @@ class Controller extends BaseController
             $inputs = json_decode($inputs);
             
             $user = User::findOrFail($inputs->id);
-            return ['name'=>$user->name, 'username'=>$user->username, 'email'=>$user->email];
+            return ['name'=>$user->name, 'username'=>$user->username, 'email'=>$user->email, 'photo'=>$user->photo];
         }
         catch(Exception $error)
         {
@@ -468,7 +495,7 @@ class Controller extends BaseController
     {
         $charity = Charity::join('users', 'users.id', 'charities.user_id')
         ->join('charity_categories', 'charity_categories.id', 'charities.charity_category_id')
-        ->select('charities.id', 'organization', 'contact_number', 'account_number', 'users.name as handler', 'charity_categories.name as category')
+        ->select('charities.id', 'organization', 'contact_number', 'account_number', 'users.name as handler', 'charity_categories.name as category', 'charities.photo')
         ->get();
         return response()->json($charity);
     }
@@ -487,7 +514,7 @@ class Controller extends BaseController
     public function get_users()
     {
         $return_users=[];
-        $users = User::select('id', 'name', 'role_id as type')
+        $users = User::select('id', 'name', 'role_id as type', 'photo')
         ->get();
         foreach ($users as $user)
         {
