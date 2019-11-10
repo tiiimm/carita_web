@@ -130,15 +130,10 @@ class Controller extends BaseController
                         $points = $current_user->charity->point->points;
                     }
                     return json_encode([
-                        'success'=>true, 
-                        'name' => $current_user->name, 
-                        'username'=> $current_user->username, 
-                        'email'=> $current_user->email, 
-                        'id'=> $current_user->id, 
-                        'user_type'=>$user_type, 
-                        'points'=>$points, 
-                        'photo'=>$current_user->photo,
-                        'verified'=>$current_user->verified
+                        'success'=>true,
+                        'user' => $current_user,
+                        'user_type'=>$user_type,
+                        'points'=>$points
                     ]);
                 }
                 return json_encode(['error'=>true, 'message'=>'Invalid Username and Password combination']);
