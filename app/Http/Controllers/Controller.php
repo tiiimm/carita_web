@@ -30,6 +30,15 @@ class Controller extends BaseController
             $inputs = array();
             $inputs = file_get_contents('php://input');
             $inputs = json_decode($inputs);
+
+            if (!User::where('username', $inputs->username)->get()->isEmpty())
+            {
+                return ['error'=>true, 'message'=>'Username already taken', 'txt_username'=>true];
+            }
+            if (!User::where('email', $inputs->email)->get()->isEmpty())
+            {
+                return ['error'=>true, 'message'=>'Email already taken', 'txt_email'=>true];
+            }
             
             $user = User::create([
                 'name'=>$inputs->name,
@@ -39,11 +48,15 @@ class Controller extends BaseController
                 'verified' => 0,
                 'password'=>bcrypt($inputs->password)
             ]);
-            return json_encode(['message'=>"successful", 'name' => $user->name, 'username'=> $user->username, 'email'=> $user->email, 'id'=> $user->id, 'points'=>0, 'photo'=>'carita/profile_picture.png']);
+            return json_encode([
+                'success'=>true,
+                'user' => $user,
+                'points'=>0,
+            ]);
         }
         catch(Exception $error)
         {
-            return json_encode(['message'=>$error]);
+            return ['error'=>true, 'message'=>'Something went wrong!'];
         }
     }
     
