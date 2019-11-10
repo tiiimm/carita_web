@@ -82,6 +82,7 @@ Route::get('/seed', function () {
         'email'=>'onrubia.fatima98@gmail.com',
         'username'=>'tim',
         'photo'=>'carita/profile_picture.png',
+        'verified'=>1,
         'role_id'=>1,
         'password'=>bcrypt('asdasdasd')
     ]);

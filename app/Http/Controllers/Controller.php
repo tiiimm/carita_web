@@ -11,6 +11,7 @@ use App\PhilanthropistPoint;
 use App\Role;
 use App\User;
 use App\WatchLog;
+use Error;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -35,6 +36,7 @@ class Controller extends BaseController
                 'username'=>$inputs->username,
                 'email'=>$inputs->email,
                 'photo' => 'carita/profile_picture.png',
+                'verified' => 0,
                 'password'=>bcrypt($inputs->password)
             ]);
             return json_encode(['message'=>"successful", 'name' => $user->name, 'username'=> $user->username, 'email'=> $user->email, 'id'=> $user->id, 'points'=>0, 'photo'=>'carita/profile_picture.png']);
@@ -105,7 +107,7 @@ class Controller extends BaseController
 
             if ($user_details->isEmpty())
             {
-                return json_encode(['message'=>"invalid"]);
+                return json_encode(['error'=>true, 'message'=>'Invalid Username and Password combination']);
             }
             
             foreach($user_details as $user)
@@ -127,12 +129,22 @@ class Controller extends BaseController
                     {
                         $points = $current_user->charity->point->points;
                     }
-                    return json_encode(['message'=>"successful", 'name' => $current_user->name, 'username'=> $current_user->username, 'email'=> $current_user->email, 'id'=> $current_user->id, 'user_type'=>$user_type, 'points'=>$points, 'photo'=>$current_user->photo]);
+                    return json_encode([
+                        'success'=>true, 
+                        'name' => $current_user->name, 
+                        'username'=> $current_user->username, 
+                        'email'=> $current_user->email, 
+                        'id'=> $current_user->id, 
+                        'user_type'=>$user_type, 
+                        'points'=>$points, 
+                        'photo'=>$current_user->photo,
+                        'verified'=>$current_user->verified
+                    ]);
                 }
-                return json_encode(['message'=>"invalid"]);
+                return json_encode(['error'=>true, 'message'=>'Invalid Username and Password combination']);
             }
-        } catch (Exception $error) {
-            return json_encode(['message'=>"invalid"]);
+        } catch (Error $error) {
+            return json_encode(['error'=>true, 'message'=>'Invalid Username and Password combination']);
         }
     }
 
