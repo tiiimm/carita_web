@@ -89,10 +89,13 @@ class Controller extends BaseController
                     'user_id'=>$inputs->id,
                     'organization'=>$inputs->organization,
                     'contact_number'=>$inputs->contact_number,
+                    'bio'=>$inputs->bio,
+                    'bio_path'=>$inputs->bio_path,
+                    'photo'=>$inputs->logo_path,
+                    'account_name'=>$inputs->account_name,
                     'account_number'=>$inputs->account_number,
                     'address'=>$inputs->address,
                     'charity_category_id'=>CharityCategory::where('name', $inputs->category)->value('id'),
-                    'photo'=>'carita/profile_picture.png'
                 ]);
                 CharityPoint::create([
                     'charity_id'=>$charity->id,
