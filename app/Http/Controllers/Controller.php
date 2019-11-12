@@ -538,7 +538,7 @@ class Controller extends BaseController
                 $charity['watch_count'] = WatchLog::where('philanthropist_id', $inputs->id)->where('charity_id', $charity->id)->count();
             }
 
-            return response()->json($charities);
+            return response()->json(['charities'=>$charities]);
         }
         catch(Exception $error)
         {
