@@ -535,7 +535,12 @@ class Controller extends BaseController
 
             foreach ($charities as $charity)
             {
-                $charity['watch_count'] = WatchLog::where('philanthropist_id', $inputs->id)->where('charity_id', $charity->id)->count();
+                try {
+                    $id = User::findOrFail($inputs->id)->philanthropist->id;
+                    $charity['watch_count'] = WatchLog::where('philanthropist_id', $id)->where('charity_id', $charity->id)->count();
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
             }
 
             return response()->json(['charities'=>$charities]);
