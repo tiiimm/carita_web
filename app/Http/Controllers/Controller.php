@@ -535,11 +535,11 @@ class Controller extends BaseController
 
             foreach ($charities as $charity)
             {
+                $charity['watch_count'] = 0;
                 try {
                     $id = User::findOrFail($inputs->id)->philanthropist->id;
                     $charity['watch_count'] = WatchLog::where('philanthropist_id', $id)->where('charity_id', $charity->id)->count();
                 } catch (\Throwable $th) {
-                    $charity['watch_count'] = 0;
                 }
             }
 
