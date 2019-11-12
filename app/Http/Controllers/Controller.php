@@ -81,7 +81,7 @@ class Controller extends BaseController
                     'philanthropist_id'=>$philanthropist->id,
                     'points'=>0
                 ]);
-                User::findOrFail($inputs->id)->update(['role_id'=>Role::where('name','user')->value('id')]);
+                User::findOrFail($inputs->id)->update(['role_id'=>Role::where('name','user')->value('id'), 'photo'=>$inputs->profile_picture_path]);
             }
             elseif ($inputs->user_type == 'charity')
             {
