@@ -530,7 +530,8 @@ class Controller extends BaseController
             
             $charities = Charity::join('users', 'users.id', 'charities.user_id')
             ->join('charity_categories', 'charity_categories.id', 'charities.charity_category_id')
-            ->select('charities.id', 'organization', 'contact_number', 'account_name', 'account_number', 'users.name as handler', 'charity_categories.name as category', 'charities.photo')
+            ->join('charity_points', 'charity_points.charity_id', 'charities.id')
+            ->select('charities.id', 'organization', 'contact_number', 'account_name', 'account_number', 'users.name as handler', 'charity_categories.name as category', 'charities.photo', 'contact', 'points')
             ->get();
 
             foreach ($charities as $charity)
