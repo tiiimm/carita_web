@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Charity;
 use App\CharityAchievement;
+use App\CharityEvent;
 use App\CharityCategory;
 use App\CharityPoint;
 use App\Philanthropist;
@@ -291,6 +292,32 @@ class Controller extends BaseController
             return json_encode(['message'=>$error]);
         }
     }
+    
+    public function add_event()
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+            
+            $user = User::findOrFail($inputs->id);
+            CharityEvent::create([
+                'charity_id'=>$user->charity->id,
+                'title' => $inputs->title,
+                'description' => $inputs->description,
+                'photo' => $inputs->photo,
+                'venue' => $inputs->venue,
+                'event_date' => $inputs->event_date,
+                'event_from' => $inputs->event_from,
+                'event_to' => $inputs->event_to,
+            ]);
+            return json_encode(['message'=>'successful']);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
 
     public function add_role()
     {
@@ -362,6 +389,30 @@ class Controller extends BaseController
                 'description' => $inputs->description,
                 'photo' => $inputs->photo,
                 'held_on' => $inputs->held_on
+            ]);
+            return json_encode(['message'=>'Success']);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
+    public function update_event()
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+
+            CharityEvent::findOrFail($inputs->id)->update([
+                'title' => $inputs->title,
+                'description' => $inputs->description,
+                'photo' => $inputs->photo,
+                'venue' => $inputs->venue,
+                'event_date' => $inputs->event_date,
+                'event_from' => $inputs->event_from,
+                'event_to' => $inputs->event_to
             ]);
             return json_encode(['message'=>'Success']);
         }
@@ -443,6 +494,22 @@ class Controller extends BaseController
         }
     }
 
+    public function delete_event()
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+            
+            CharityEvent::findOrFail($inputs->id)->delete();
+            return json_encode(['message'=>'Success']);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
     public function delete_role()
     {
         try {
@@ -499,6 +566,21 @@ class Controller extends BaseController
             $inputs = json_decode($inputs);
             
             return ['achievements'=>User::findOrFail($inputs->id)->charity->achievements];
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
+    public function get_charity_events()
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+            
+            return ['events'=>User::findOrFail($inputs->id)->charity->events];
         }
         catch(Exception $error)
         {

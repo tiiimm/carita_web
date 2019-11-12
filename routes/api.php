@@ -31,21 +31,25 @@ Route::post('/update_password', "Controller@update_password"); //params: id, pas
 Route::post('/reset_password', "Controller@reset_password"); //params: id, password
 
 Route::post('/add_achievement', "Controller@add_achievement"); //params: id, title, description, photo, held_on
+Route::post('/add_event', "Controller@add_event"); //params: id, title, description, photo, venue, event_date, event_from, event_to
 Route::post('/add_role', "Controller@add_role"); //params: name
 Route::post('/add_charity_category', "Controller@add_charity_category"); //params: name
 Route::post('/add_user', "Controller@add_user"); //params: name, email, username, password
 
 Route::post('/update_achievement', "Controller@update_achievement"); //params: id, title, description, photo, held_on 
+Route::post('/update_event', "Controller@update_event"); //params: id, title, description, photo, venue, event_date, event_from, event_to
 Route::post('/update_role', "Controller@update_role"); //params: id, name
 Route::post('/update_charity_category', "Controller@update_charity_category"); //params: id, name
 Route::post('/update_user', "Controller@update_user"); //params: id, name, email, username, password
 
 Route::post('/delete_achievement', "Controller@delete_achievement"); //params: id
+Route::post('/delete_event', "Controller@delete_event"); //params: id
 Route::post('/delete_role', "Controller@delete_role"); //params: id
 Route::post('/delete_charity_category', "Controller@delete_charity_category"); //params: id
 Route::post('/delete_user', "Controller@delete_user"); //params: id
 
 Route::post('/get_charity_achievements', "Controller@get_charity_achievements"); //params: id
+Route::post('/get_charity_events', "Controller@get_charity_events"); //params: id
 Route::post('/get_user_details', "Controller@get_user_details"); //params: id
 Route::post('/get_charities', "Controller@get_charities"); //params: id
 

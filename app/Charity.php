@@ -34,4 +34,9 @@ class Charity extends Model
     {
         return $this->hasMany('App\CharityAchievement');
     }
+    
+    public function events()
+    {
+        return $this->hasMany('App\CharityEvent');
+    }
 }
