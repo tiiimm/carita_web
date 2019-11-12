@@ -537,7 +537,7 @@ class Controller extends BaseController
     public function get_users()
     {
         $return_users=[];
-        $users = User::select('id', 'name', 'role_id as type', 'photo')
+        $users = User::select('id', 'name', 'role_id as type', 'photo', 'verified')
         ->get();
         foreach ($users as $user)
         {
