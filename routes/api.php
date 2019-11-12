@@ -47,9 +47,9 @@ Route::post('/delete_user', "Controller@delete_user"); //params: id
 
 Route::post('/get_charity_achievements', "Controller@get_charity_achievements"); //params: id
 Route::post('/get_user_details', "Controller@get_user_details"); //params: id
+Route::post('/get_charities', "Controller@get_charities"); //params: id
 
 Route::get('/get_achievements', "Controller@get_achievements");
-Route::get('/get_charities', "Controller@get_charities");
 Route::get('/get_roles', "Controller@get_roles");
 Route::get('/get_charity_categories', "Controller@get_charity_categories");
 Route::get('/get_users', "Controller@get_users");

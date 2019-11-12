@@ -520,6 +520,31 @@ class Controller extends BaseController
             return json_encode(['message'=>$error]);
         }
     }
+    
+    public function get_charities()
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+            
+            $charities = Charity::join('users', 'users.id', 'charities.user_id')
+            ->join('charity_categories', 'charity_categories.id', 'charities.charity_category_id')
+            ->select('charities.id', 'organization', 'contact_number', 'account_number', 'users.name as handler', 'charity_categories.name as category', 'charities.photo')
+            ->get();
+
+            foreach ($charities as $charity)
+            {
+                $charity['watch_count'] = WatchLog::where('philanthropist_id', $inputs->id)->where('charity_id', $charity->id)->count();
+            }
+
+            return response()->json($charities);
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
 
     public function get_achievements()
     {
@@ -527,15 +552,6 @@ class Controller extends BaseController
         ->select('charity_achievements.id', 'title', 'description', 'photo', 'held_on')
         ->get();
         return response()->json($achievements);
-    }
-
-    public function get_charities()
-    {
-        $charity = Charity::join('users', 'users.id', 'charities.user_id')
-        ->join('charity_categories', 'charity_categories.id', 'charities.charity_category_id')
-        ->select('charities.id', 'organization', 'contact_number', 'account_number', 'users.name as handler', 'charity_categories.name as category', 'charities.photo')
-        ->get();
-        return response()->json($charity);
     }
 
     public function get_roles()
