@@ -91,6 +91,7 @@ class Controller extends BaseController
                     'contact_number'=>$inputs->contact_number,
                     'bio'=>$inputs->bio,
                     'bio_path'=>$inputs->bio_path,
+                    'bio_path_type'=>$inputs->bio_path_type,
                     'photo'=>$inputs->logo_path,
                     'account_name'=>$inputs->account_name,
                     'account_number'=>$inputs->account_number,
@@ -531,7 +532,7 @@ class Controller extends BaseController
             $charities = Charity::join('users', 'users.id', 'charities.user_id')
             ->join('charity_categories', 'charity_categories.id', 'charities.charity_category_id')
             ->join('charity_points', 'charity_points.charity_id', 'charities.id')
-            ->select('charities.id', 'organization', 'contact_number', 'account_name', 'account_number', 'users.name as handler', 'users.id as handler_id','charity_categories.name as category', 'charities.photo', 'address', 'points')
+            ->select('charities.id', 'organization', 'contact_number', 'account_name', 'account_number', 'users.name as handler', 'users.id as handler_id','charity_categories.name as category', 'charities.photo', 'bio', 'bio_path', 'bio_path_type', 'address', 'points')
             ->get();
 
             foreach ($charities as $charity)
