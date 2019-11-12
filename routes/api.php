@@ -23,6 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/register_user', "Controller@register_user"); //params: name, username, email, password
 Route::post('/set_user_type', "Controller@set_user_type"); //params: user_type (philanthropist: id, contact_number, birthday, sex, category), (charity: id, organization, contact_number, account_number, address, category)
 Route::post('/login_user', "Controller@login_user"); //params: username, password
+Route::post('/verify_user', "Controller@verify_user"); //params: id
 Route::post('/reward_user', "Controller@reward_user"); //params: user_id, charity_id
 Route::post('/update_profile_picture', "Controller@update_profile_picture"); //params: id, photo
 Route::post('/update_profile', "Controller@update_profile"); //params: id, name, username, email

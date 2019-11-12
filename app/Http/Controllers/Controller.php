@@ -159,6 +159,21 @@ class Controller extends BaseController
         }
     }
 
+    public function verify_user()
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+            
+            User::findOrFail($inputs->id)->update([
+                'verified'=>1
+            ]);
+        } catch (Exception $error) {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
     public function reward_user()
     {
         try {
