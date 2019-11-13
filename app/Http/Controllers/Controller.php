@@ -222,7 +222,7 @@ class Controller extends BaseController
             } catch (Exception $th) {
                 //throw $th;
             }
-            CharityEvent::findOrFail($inputs->event_id)->point->increment('points');
+            CharityEvent::findOrFail($inputs->event_id)->increment('points');
             return json_encode(['message'=>"successful", 'points'=>$points]);
         } catch (Exception $error) {
             return json_encode(['message'=>$error]);
