@@ -668,6 +668,31 @@ class Controller extends BaseController
         }
     }
 
+    public function get_donations()
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+
+            $january = WatchLog::where('user_id', $inputs->id)
+            ->whereMonth('created_at', '10')
+            ->whereYear('created_at', $inputs->year)
+            ->count() 
+            + 
+            EventWatchLog::where('user_id', $inputs->id)
+            ->whereMonth('created_at', '10')
+            ->whereYear('created_at', $inputs->year)
+            ->count();      
+            
+            return ['january'=>$january];
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
     public function get_achievements()
     {
         $achievements = CharityAchievement::join('charities', 'charities.id', 'charity_achievements.charity_id')
