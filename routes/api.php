@@ -59,6 +59,8 @@ Route::get('/get_achievements', "Controller@get_achievements");
 Route::get('/get_roles', "Controller@get_roles");
 Route::get('/get_charity_categories', "Controller@get_charity_categories");
 Route::get('/get_users', "Controller@get_users");
+Route::get('/get_top_charities', "Controller@get_top_charities");
+Route::get('/get_latest_events', "Controller@get_latest_events");
 Route::get('/seed', function () {
     Role::create([
         'name' => 'admin'
