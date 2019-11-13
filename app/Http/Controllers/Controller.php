@@ -192,7 +192,7 @@ class Controller extends BaseController
             try {
                 $user->philanthropist->point->increment('points');
                 $points = $user->philanthropist->point->points;
-            } catch (\Throwable $th) {
+            } catch (Exception $th) {
                 //throw $th;
             }
             Charity::findOrFail($inputs->charity_id)->point->increment('points');
