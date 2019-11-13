@@ -827,52 +827,52 @@ class Controller extends BaseController
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $march = WatchLog::where('user_id', $id)
+            $march = WatchLog::where('charity_id', $id)
             ->whereMonth('created_at', '3')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $april = WatchLog::where('user_id', $id)
+            $april = WatchLog::where('charity_id', $id)
             ->whereMonth('created_at', '4')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $may = WatchLog::where('user_id', $id)
+            $may = WatchLog::where('charity_id', $id)
             ->whereMonth('created_at', '5')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $june = WatchLog::where('user_id', $id)
+            $june = WatchLog::where('charity_id', $id)
             ->whereMonth('created_at', '6')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $july = WatchLog::where('user_id', $id)
+            $july = WatchLog::where('charity_id', $id)
             ->whereMonth('created_at', '7')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $august = WatchLog::where('user_id', $id)
+            $august = WatchLog::where('charity_id', $id)
             ->whereMonth('created_at', '8')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $september = WatchLog::where('user_id', $id)
+            $september = WatchLog::where('charity_id', $id)
             ->whereMonth('created_at', '9')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $october = WatchLog::where('user_id', $id)
+            $october = WatchLog::where('charity_id', $id)
             ->whereMonth('created_at', '10')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $november = WatchLog::where('user_id', $id)
+            $november = WatchLog::where('charity_id', $id)
             ->whereMonth('created_at', '11')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $december = WatchLog::where('user_id', $id)
+            $december = WatchLog::where('charity_id', $id)
             ->whereMonth('created_at', '12')
             ->whereYear('created_at', $inputs->year)
             ->count();      
