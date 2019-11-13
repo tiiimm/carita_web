@@ -627,8 +627,7 @@ class Controller extends BaseController
             {
                 $charity['watch_count'] = 0;
                 try {
-                    $id = User::findOrFail($inputs->id)->philanthropist->id;
-                    $charity['watch_count'] = WatchLog::where('user_id', $id)->where('charity_id', $charity->id)->count();
+                    $charity['watch_count'] = WatchLog::where('user_id', $inputs->id)->where('charity_id', $charity->id)->count();
                 } catch (\Throwable $th) {
                 }
             }
