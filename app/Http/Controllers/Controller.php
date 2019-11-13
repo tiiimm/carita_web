@@ -1113,7 +1113,7 @@ class Controller extends BaseController
 
     public function get_top_charities()
     {
-        return Charity::join('charity_points', 'charity_points.charity_id', 'charities.id')->orderBy('points', 'ASC')->limit(3)->get();
+        return Charity::join('charity_points', 'charity_points.charity_id', 'charities.id')->orderBy('points', 'DESC')->limit(3)->get();
     }
 
     public function get_latest_events()
