@@ -26,7 +26,7 @@ class CreateEventWatchLogsTable extends Migration
 
             $table->foreign('event_id')
             ->references('id')
-            ->on('events')
+            ->on('charity_events')
             ->onDelete('cascade');
         });
     }
