@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class WatchLog extends Model
 {
     protected $fillable = [
-        'philanthropist_id', 'charity_id'
+        'user_id', 'charity_id'
     ];
 
     public function charity()
