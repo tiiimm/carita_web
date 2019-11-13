@@ -17,7 +17,7 @@ class CreatePhilanthropistsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->unique();
             $table->string('contact_number')->unique();
-            $table->date('birthday');
+            $table->string('birthday');
             $table->string('sex');
             $table->unsignedBigInteger('charity_category_id');
             $table->timestamps();
