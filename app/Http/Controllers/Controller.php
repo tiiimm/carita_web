@@ -316,6 +316,7 @@ class Controller extends BaseController
                 'event_date' => $inputs->event_date,
                 'event_from' => $inputs->event_from,
                 'event_to' => $inputs->event_to,
+                'points' => 0
             ]);
             return json_encode(['message'=>'successful']);
         }
