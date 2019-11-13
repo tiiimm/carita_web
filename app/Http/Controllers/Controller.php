@@ -803,6 +803,122 @@ class Controller extends BaseController
         }
     }
 
+    public function get_admin_donations()
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+
+            $january = WatchLog::whereMonth('created_at', '1')
+            ->whereYear('created_at', $inputs->year)
+            ->count() 
+            + 
+            EventWatchLog::whereMonth('created_at', '1')
+            ->whereYear('created_at', $inputs->year)
+            ->count();      
+
+            $february = WatchLog::whereMonth('created_at', '2')
+            ->whereYear('created_at', $inputs->year)
+            ->count() 
+            + 
+            EventWatchLog::whereMonth('created_at', '2')
+            ->whereYear('created_at', $inputs->year)
+            ->count();      
+
+            $march = WatchLog::whereMonth('created_at', '3')
+            ->whereYear('created_at', $inputs->year)
+            ->count() 
+            + 
+            EventWatchLog::whereMonth('created_at', '3')
+            ->whereYear('created_at', $inputs->year)
+            ->count();      
+
+            $april = WatchLog::whereMonth('created_at', '4')
+            ->whereYear('created_at', $inputs->year)
+            ->count() 
+            + 
+            EventWatchLog::whereMonth('created_at', '4')
+            ->whereYear('created_at', $inputs->year)
+            ->count();      
+
+            $may = WatchLog::whereMonth('created_at', '5')
+            ->whereYear('created_at', $inputs->year)
+            ->count() 
+            + 
+            EventWatchLog::whereMonth('created_at', '5')
+            ->whereYear('created_at', $inputs->year)
+            ->count();      
+
+            $june = WatchLog::whereMonth('created_at', '6')
+            ->whereYear('created_at', $inputs->year)
+            ->count() 
+            + 
+            EventWatchLog::whereMonth('created_at', '6')
+            ->whereYear('created_at', $inputs->year)
+            ->count();      
+
+            $july = WatchLog::whereMonth('created_at', '7')
+            ->whereYear('created_at', $inputs->year)
+            ->count() 
+            + 
+            EventWatchLog::whereMonth('created_at', '7')
+            ->whereYear('created_at', $inputs->year)
+            ->count();      
+
+            $august = WatchLog::whereMonth('created_at', '8')
+            ->whereYear('created_at', $inputs->year)
+            ->count() 
+            + 
+            EventWatchLog::whereMonth('created_at', '8')
+            ->whereYear('created_at', $inputs->year)
+            ->count();      
+
+            $september = WatchLog::whereMonth('created_at', '9')
+            ->whereYear('created_at', $inputs->year)
+            ->count() 
+            + 
+            EventWatchLog::whereMonth('created_at', '9')
+            ->whereYear('created_at', $inputs->year)
+            ->count();      
+
+            $october = WatchLog::whereMonth('created_at', '10')
+            ->whereYear('created_at', $inputs->year)
+            ->count() 
+            + 
+            EventWatchLog::whereMonth('created_at', '10')
+            ->whereYear('created_at', $inputs->year)
+            ->count();      
+
+            $november = WatchLog::whereMonth('created_at', '11')
+            ->whereYear('created_at', $inputs->year)
+            ->count() 
+            + 
+            EventWatchLog::whereMonth('created_at', '11')
+            ->whereYear('created_at', $inputs->year)
+            ->count();      
+
+            $december = WatchLog::whereMonth('created_at', '12')
+            ->whereYear('created_at', $inputs->year)
+            ->count() 
+            + 
+            EventWatchLog::whereMonth('created_at', '12')
+            ->whereYear('created_at', $inputs->year)
+            ->count();      
+            
+            return ['january'=>$january, 'february'=>$february, 'march'=>$march, 'april'=>$april, 'may'=>$may, 'june'=>$june, 'july'=>$july, 'august'=>$august, 'september'=>$september, 'october'=>$october, 'november'=>$november, 'december'=>$december];
+        }
+        catch(Exception $error)
+        {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
+    public function get_all_events()
+    {
+        return CharityEvent::orderBy('created_at')->get();
+    }
+
     public function get_achievements()
     {
         $achievements = CharityAchievement::join('charities', 'charities.id', 'charity_achievements.charity_id')
