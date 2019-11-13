@@ -25,6 +25,7 @@ Route::post('/set_user_type', "Controller@set_user_type"); //params: user_type (
 Route::post('/login_user', "Controller@login_user"); //params: username, password
 Route::post('/verify_user', "Controller@verify_user"); //params: id
 Route::post('/reward_user', "Controller@reward_user"); //params: user_id, charity_id
+Route::post('/reward_user_event', "Controller@reward_user_event"); //params: user_id, charity_id
 Route::post('/update_profile_picture', "Controller@update_profile_picture"); //params: id, photo
 Route::post('/update_profile', "Controller@update_profile"); //params: id, name, username, email
 Route::post('/update_password', "Controller@update_password"); //params: id, password

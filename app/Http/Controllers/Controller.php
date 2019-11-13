@@ -7,6 +7,7 @@ use App\CharityAchievement;
 use App\CharityEvent;
 use App\CharityCategory;
 use App\CharityPoint;
+use App\EventWatchLog;
 use App\Philanthropist;
 use App\PhilanthropistPoint;
 use App\Role;
@@ -196,6 +197,32 @@ class Controller extends BaseController
                 //throw $th;
             }
             Charity::findOrFail($inputs->charity_id)->point->increment('points');
+            return json_encode(['message'=>"successful", 'points'=>$points]);
+        } catch (Exception $error) {
+            return json_encode(['message'=>$error]);
+        }
+    }
+
+    public function reward_user_event()
+    {
+        try {
+            $inputs = array();
+            $inputs = file_get_contents('php://input');
+            $inputs = json_decode($inputs);
+
+            $user = User::findOrFail($inputs->user_id);
+            EventWatchLog::create([
+                'user_id' => $user->id,
+                'event_id' => $inputs->event_id
+            ]);
+            $points = 0;
+            try {
+                $user->philanthropist->point->increment('points');
+                $points = $user->philanthropist->point->points;
+            } catch (Exception $th) {
+                //throw $th;
+            }
+            CharityEvent::findOrFail($inputs->event_id)->point->increment('points');
             return json_encode(['message'=>"successful", 'points'=>$points]);
         } catch (Exception $error) {
             return json_encode(['message'=>$error]);
