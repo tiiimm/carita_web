@@ -820,19 +820,9 @@ class Controller extends BaseController
             $january = WatchLog::where('charity_id', $id)
             ->whereMonth('created_at', '1')
             ->whereYear('created_at', $inputs->year)
-            ->count() 
-            + 
-            EventWatchLog::where('user_id', $id)
-            ->whereMonth('created_at', '1')
-            ->whereYear('created_at', $inputs->year)
             ->count();      
 
             $february = WatchLog::where('user_id', $id)
-            ->whereMonth('created_at', '2')
-            ->whereYear('created_at', $inputs->year)
-            ->count() 
-            + 
-            EventWatchLog::where('user_id', $id)
             ->whereMonth('created_at', '2')
             ->whereYear('created_at', $inputs->year)
             ->count();      
@@ -840,19 +830,9 @@ class Controller extends BaseController
             $march = WatchLog::where('user_id', $id)
             ->whereMonth('created_at', '3')
             ->whereYear('created_at', $inputs->year)
-            ->count() 
-            + 
-            EventWatchLog::where('user_id', $id)
-            ->whereMonth('created_at', '3')
-            ->whereYear('created_at', $inputs->year)
             ->count();      
 
             $april = WatchLog::where('user_id', $id)
-            ->whereMonth('created_at', '4')
-            ->whereYear('created_at', $inputs->year)
-            ->count() 
-            + 
-            EventWatchLog::where('user_id', $id)
             ->whereMonth('created_at', '4')
             ->whereYear('created_at', $inputs->year)
             ->count();      
@@ -860,19 +840,9 @@ class Controller extends BaseController
             $may = WatchLog::where('user_id', $id)
             ->whereMonth('created_at', '5')
             ->whereYear('created_at', $inputs->year)
-            ->count() 
-            + 
-            EventWatchLog::where('user_id', $id)
-            ->whereMonth('created_at', '5')
-            ->whereYear('created_at', $inputs->year)
             ->count();      
 
             $june = WatchLog::where('user_id', $id)
-            ->whereMonth('created_at', '6')
-            ->whereYear('created_at', $inputs->year)
-            ->count() 
-            + 
-            EventWatchLog::where('user_id', $id)
             ->whereMonth('created_at', '6')
             ->whereYear('created_at', $inputs->year)
             ->count();      
@@ -880,19 +850,9 @@ class Controller extends BaseController
             $july = WatchLog::where('user_id', $id)
             ->whereMonth('created_at', '7')
             ->whereYear('created_at', $inputs->year)
-            ->count() 
-            + 
-            EventWatchLog::where('user_id', $id)
-            ->whereMonth('created_at', '7')
-            ->whereYear('created_at', $inputs->year)
             ->count();      
 
             $august = WatchLog::where('user_id', $id)
-            ->whereMonth('created_at', '8')
-            ->whereYear('created_at', $inputs->year)
-            ->count() 
-            + 
-            EventWatchLog::where('user_id', $id)
             ->whereMonth('created_at', '8')
             ->whereYear('created_at', $inputs->year)
             ->count();      
@@ -900,19 +860,9 @@ class Controller extends BaseController
             $september = WatchLog::where('user_id', $id)
             ->whereMonth('created_at', '9')
             ->whereYear('created_at', $inputs->year)
-            ->count() 
-            + 
-            EventWatchLog::where('user_id', $id)
-            ->whereMonth('created_at', '9')
-            ->whereYear('created_at', $inputs->year)
             ->count();      
 
             $october = WatchLog::where('user_id', $id)
-            ->whereMonth('created_at', '10')
-            ->whereYear('created_at', $inputs->year)
-            ->count() 
-            + 
-            EventWatchLog::where('user_id', $id)
             ->whereMonth('created_at', '10')
             ->whereYear('created_at', $inputs->year)
             ->count();      
@@ -920,19 +870,9 @@ class Controller extends BaseController
             $november = WatchLog::where('user_id', $id)
             ->whereMonth('created_at', '11')
             ->whereYear('created_at', $inputs->year)
-            ->count() 
-            + 
-            EventWatchLog::where('user_id', $id)
-            ->whereMonth('created_at', '11')
-            ->whereYear('created_at', $inputs->year)
             ->count();      
 
             $december = WatchLog::where('user_id', $id)
-            ->whereMonth('created_at', '12')
-            ->whereYear('created_at', $inputs->year)
-            ->count() 
-            + 
-            EventWatchLog::where('user_id', $id)
             ->whereMonth('created_at', '12')
             ->whereYear('created_at', $inputs->year)
             ->count();      
