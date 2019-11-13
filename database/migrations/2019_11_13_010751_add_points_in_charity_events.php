@@ -14,7 +14,7 @@ class AddPointsInCharityEvents extends Migration
     public function up()
     {
         Schema::table('charity_events', function (Blueprint $table) {
-            $table->integer('points');
+            $table->integer('points')->after('venue');
         });
     }
 
