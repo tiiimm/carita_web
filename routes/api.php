@@ -54,8 +54,9 @@ Route::post('/get_charity_events', "Controller@get_charity_events"); //params: i
 Route::post('/get_user_details', "Controller@get_user_details"); //params: id
 Route::post('/get_charities', "Controller@get_charities"); //params: id
 Route::post('/get_donations', "Controller@get_donations"); //params: id, user_type
+Route::post('/get_supports', "Controller@get_supports"); //params: id, user_type
+Route::post('/get_admin_donations', "Controller@get_admin_donations");
 
-Route::get('/get_admin_donations', "Controller@get_admin_donations");
 Route::get('/get_all_events', "Controller@get_all_events");
 Route::get('/get_achievements', "Controller@get_achievements");
 Route::get('/get_roles', "Controller@get_roles");
