@@ -185,7 +185,7 @@ class Controller extends BaseController
 
             $user = User::findOrFail($inputs->user_id);
             WatchLog::create([
-                'philanthropist_id' => $user->id,
+                'user_id' => $user->id,
                 'charity_id' => $inputs->charity_id
             ]);
             $points = 0;
