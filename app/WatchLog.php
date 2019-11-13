@@ -15,8 +15,8 @@ class WatchLog extends Model
         return $this->belongsTo('App\Charity');
     }
 
-    public function philanthropist()
+    public function user()
     {
-        return $this->belongsTo('App\Philanthropist');
+        return $this->belongsTo('App\User');
     }
 }

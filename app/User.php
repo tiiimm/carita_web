@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Philanthropist');
     }
+    
+    public function watch_logs()
+    {
+        return $this->hasMany('App\WatchLog');
+    }
 }

@@ -15,13 +15,13 @@ class CreateWatchLogsTable extends Migration
     {
         Schema::create('watch_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('philanthropist_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('charity_id');
             $table->timestamps();
 
-            $table->foreign('philanthropist_id')
+            $table->foreign('user_id')
             ->references('id')
-            ->on('philanthropists')
+            ->on('users')
             ->onDelete('cascade');
 
             $table->foreign('charity_id')

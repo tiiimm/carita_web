@@ -24,9 +24,4 @@ class Philanthropist extends Model
     {
         return $this->hasOne('App\PhilanthropistPoint');
     }
-    
-    public function watch_logs()
-    {
-        return $this->hasMany('App\WatchLog');
-    }
 }
