@@ -185,12 +185,18 @@ class Controller extends BaseController
 
             $user = User::findOrFail($inputs->user_id);
             WatchLog::create([
-                'philanthropist_id' => $user->philanthropist->id,
+                'philanthropist_id' => $user->id,
                 'charity_id' => $inputs->charity_id
             ]);
-            $user->philanthropist->point->increment('points');
+            $points = 0;
+            try {
+                $user->philanthropist->point->increment('points');
+                $points = $user->philanthropist->point->points;
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
             Charity::findOrFail($inputs->charity_id)->point->increment('points');
-            return json_encode(['message'=>"successful", 'points'=>$user->philanthropist->point->points]);
+            return json_encode(['message'=>"successful", 'points'=>$points]);
         } catch (Exception $error) {
             return json_encode(['message'=>$error]);
         }
