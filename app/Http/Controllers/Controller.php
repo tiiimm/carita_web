@@ -798,9 +798,11 @@ class Controller extends BaseController
             EventWatchLog::where('user_id', $inputs->id)
             ->whereMonth('created_at', '12')
             ->whereYear('created_at', $inputs->year)
-            ->count();      
+            ->count();    
             
-            return ['january'=>$january, 'february'=>$february, 'march'=>$march, 'april'=>$april, 'may'=>$may, 'june'=>$june, 'july'=>$july, 'august'=>$august, 'september'=>$september, 'october'=>$october, 'november'=>$november, 'december'=>$december];
+            $total_donations = $january + $february + $march + $april + $may + $june + $july + $august + $september + $october + $november + $december;
+            
+            return ['january'=>$january, 'february'=>$february, 'march'=>$march, 'april'=>$april, 'may'=>$may, 'june'=>$june, 'july'=>$july, 'august'=>$august, 'september'=>$september, 'october'=>$october, 'november'=>$november, 'december'=>$december, 'total_donations'=>$total_donations];
         }
         catch(Exception $error)
         {
@@ -877,6 +879,8 @@ class Controller extends BaseController
             ->whereYear('created_at', $inputs->year)
             ->count();   
 
+            $total_supports = $january + $february + $march + $april + $may + $june + $july + $august + $september + $october + $november + $december;
+
             
             $january_charity = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
             ->where('charity_id', $id)
@@ -949,9 +953,14 @@ class Controller extends BaseController
             ->whereMonth('created_at', '12')
             ->whereYear('created_at', $inputs->year)
             ->count();      
+
+            $total_events_points = $january_charity + $february_charity + $march_charity + $april_charity + $may_charity + $june_charity + $july_charity + $august_charity + $september_charity + $october_charity + $november_charity + $december_charity;
             
             return ['january'=>$january, 'february'=>$february, 'march'=>$march, 'april'=>$april, 'may'=>$may, 'june'=>$june, 'july'=>$july, 'august'=>$august, 'september'=>$september, 'october'=>$october, 'november'=>$november, 'december'=>$december,
-            'january_charity'=>$january_charity, 'february_charity'=>$february_charity, 'march_charity'=>$march_charity, 'april_charity'=>$april_charity, 'may_charity'=>$may_charity, 'june_charity'=>$june_charity, 'july_charity'=>$july_charity, 'august_charity'=>$august_charity, 'september_charity'=>$september_charity, 'october_charity'=>$october_charity, 'november_charity'=>$november_charity, 'december_charity'=>$december_charity];
+
+            'january_charity'=>$january_charity, 'february_charity'=>$february_charity, 'march_charity'=>$march_charity, 'april_charity'=>$april_charity, 'may_charity'=>$may_charity, 'june_charity'=>$june_charity, 'july_charity'=>$july_charity, 'august_charity'=>$august_charity, 'september_charity'=>$september_charity, 'october_charity'=>$october_charity, 'november_charity'=>$november_charity, 'december_charity'=>$december_charity,
+
+            'total_supports'=> $total_supports, 'total_events_points'=>$total_events_points];
         }
         catch(Exception $error)
         {
@@ -966,7 +975,7 @@ class Controller extends BaseController
             $inputs = file_get_contents('php://input');
             $inputs = json_decode($inputs);
 
-            $january = WatchLog::whereMonth('created_at'_charity, '1')
+            $january = WatchLog::whereMonth('created_at', '1')
             ->whereYear('created_at', $inputs->year)
             ->count() 
             + 
