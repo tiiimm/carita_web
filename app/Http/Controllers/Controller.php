@@ -878,79 +878,80 @@ class Controller extends BaseController
             ->count();   
 
             
-            $january = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
+            $january_charity = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
             ->where('charity_id', $id)
             ->whereMonth('created_at', '1')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $february = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
+            $february_charity = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
             ->where('charity_id', $id)
             ->whereMonth('created_at', '2')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $march = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
+            $march_charity = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
             ->where('charity_id', $id)
             ->whereMonth('created_at', '3')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $april = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
+            $april_charity = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
             ->where('charity_id', $id)
             ->whereMonth('created_at', '4')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $may = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
+            $may_charity = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
             ->where('charity_id', $id)
             ->whereMonth('created_at', '5')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $june = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
+            $june_charity = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
             ->where('charity_id', $id)
             ->whereMonth('created_at', '6')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $july = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
+            $july_charity = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
             ->where('charity_id', $id)
             ->whereMonth('created_at', '7')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $august = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
+            $august_charity = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
             ->where('charity_id', $id)
             ->whereMonth('created_at', '8')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $september = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
+            $september_charity = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
             ->where('charity_id', $id)
             ->whereMonth('created_at', '9')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $october = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
+            $october_charity = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
             ->where('charity_id', $id)
             ->whereMonth('created_at', '10')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $november = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
+            $november_charity = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
             ->where('charity_id', $id)
             ->whereMonth('created_at', '11')
             ->whereYear('created_at', $inputs->year)
             ->count();      
 
-            $december = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
+            $december_charity = EventWatchLog::join('charity_events', 'charity_events.id', 'event_watch_logs.event_id')
             ->where('charity_id', $id)
             ->whereMonth('created_at', '12')
             ->whereYear('created_at', $inputs->year)
             ->count();      
             
-            return ['january'=>$january, 'february'=>$february, 'march'=>$march, 'april'=>$april, 'may'=>$may, 'june'=>$june, 'july'=>$july, 'august'=>$august, 'september'=>$september, 'october'=>$october, 'november'=>$november, 'december'=>$december];
+            return ['january'=>$january, 'february'=>$february, 'march'=>$march, 'april'=>$april, 'may'=>$may, 'june'=>$june, 'july'=>$july, 'august'=>$august, 'september'=>$september, 'october'=>$october, 'november'=>$november, 'december'=>$december,
+            'january_charity'=>$january_charity, 'february_charity'=>$february_charity, 'march_charity'=>$march_charity, 'april_charity'=>$april_charity, 'may_charity'=>$may_charity, 'june_charity'=>$june_charity, 'july_charity'=>$july_charity, 'august_charity'=>$august_charity, 'september_charity'=>$september_charity, 'october_charity'=>$october_charity, 'november_charity'=>$november_charity, 'december_charity'=>$december_charity];
         }
         catch(Exception $error)
         {
@@ -965,7 +966,7 @@ class Controller extends BaseController
             $inputs = file_get_contents('php://input');
             $inputs = json_decode($inputs);
 
-            $january = WatchLog::whereMonth('created_at', '1')
+            $january = WatchLog::whereMonth('created_at'_charity, '1')
             ->whereYear('created_at', $inputs->year)
             ->count() 
             + 
