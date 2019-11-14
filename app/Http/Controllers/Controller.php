@@ -1069,9 +1069,11 @@ class Controller extends BaseController
             + 
             EventWatchLog::whereMonth('created_at', '12')
             ->whereYear('created_at', $inputs->year)
-            ->count();      
+            ->count();   
             
-            return ['january'=>$january, 'february'=>$february, 'march'=>$march, 'april'=>$april, 'may'=>$may, 'june'=>$june, 'july'=>$july, 'august'=>$august, 'september'=>$september, 'october'=>$october, 'november'=>$november, 'december'=>$december];
+            $total_donations = $january + $february + $march + $april + $may + $june + $july + $august + $september + $october + $november + $december;
+            
+            return ['january'=>$january, 'february'=>$february, 'march'=>$march, 'april'=>$april, 'may'=>$may, 'june'=>$june, 'july'=>$july, 'august'=>$august, 'september'=>$september, 'october'=>$october, 'november'=>$november, 'december'=>$december, 'total_donations'=>$total_donations];
         }
         catch(Exception $error)
         {
