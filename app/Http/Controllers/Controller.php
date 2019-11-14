@@ -998,7 +998,7 @@ class Controller extends BaseController
 
     public function get_all_events()
     {
-        return CharityEvent::orderBy('created_at')->get();
+        return ['events'=>CharityEvent::orderBy('created_at')->get()];
     }
 
     public function get_achievements()
