@@ -16,7 +16,7 @@ class CreatePhilanthropistsTable extends Migration
         Schema::create('philanthropists', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->unique();
-            $table->string('contact_number')->unique();
+            $table->string('contact_number');
             $table->string('birthday');
             $table->string('sex');
             $table->unsignedBigInteger('charity_category_id');
